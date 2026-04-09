@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قصة حبنا 💖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   CSS VARIABLES & RESET
+   ============================ */
+:root {
+  --bg: #0a0a0a;
+  --card: #111111;
+  --card2: #181818;
+  --border: rgba(255,50,100,0.15);
+  --border2: rgba(255,50,100,0.3);
+  --pink: #ff2d6e;
+  --pink2: #ff6b9d;
+  --gold: #f5c842;
+  --text: #ffffff;
+  --text2: #cccccc;
+  --text3: #888888;
+  --glow: 0 0 30px rgba(255,45,110,0.25);
+  --glow2: 0 0 60px rgba(255,45,110,0.15);
+  --r: 18px;
+
+  /* Editable by admin */
+  --name1: "مصطفى";
+  --name2: "حبيبته";
+  --love-date: "2023-01-01";
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================
+   FLOATING PARTICLES
+   ============================ */
+#particles {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  font-size: 14px;
+  opacity: 0;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0%   { opacity: 0; transform: translateY(100vh) rotate(0deg) scale(0.5); }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-5vh) rotate(720deg) scale(1.3); }
+}
+
+/* ============================
+   ENTRY SCREEN
+   ============================ */
+#entryScreen {
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, #1a0010 0%, #000 70%);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#entryScreen::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,45,110,0.08) 0%, transparent 60%);
+  animation: pulse 3s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+.entry-card {
+  background: rgba(20,5,10,0.85);
+  border: 1px solid rgba(255,45,110,0.25);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  width: min(420px, 90vw);
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 60px rgba(255,45,110,0.12), inset 0 0 60px rgba(0,0,0,0.5);
+  backdrop-filter: blur(20px);
+  animation: cardIn 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: scale(0.85) translateY(30px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.entry-title {
+  font-family: 'Amiri', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 6px;
+  text-shadow: 0 0 20px rgba(255,45,110,0.5);
+}
+.entry-sub {
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--text3);
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+.entry-sub span { color: var(--pink); }
+.entry-input {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.95rem;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  margin-bottom: 14px;
+}
+.entry-input::placeholder { color: rgba(255,255,255,0.3); }
+.entry-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 20px rgba(255,45,110,0.2);
+}
+.entry-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #ff2d6e, #ff6b9d);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(255,45,110,0.4);
+}
+.entry-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,45,110,0.5);
+}
+.entry-btn:active { transform: translateY(0); }
+.entry-err {
+  color: #ff6b9d;
+  font-size: 0.82rem;
+  margin-top: 10px;
+  display: none;
+}
+.entry-skip {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: var(--text3);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.entry-skip:hover { color: var(--pink2); }
+
+/* ============================
+   MAIN APP
+   ============================ */
+#mainApp {
+  display: none;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+#mainApp.show { display: block; }
+
+/* ============================
+   HEADER / NAV ICONS
+   ============================ */
+.top-icons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 20px 16px;
+  position: relative; z-index: 10;
+}
+.top-icon-btn {
+  width: 70px; height: 70px;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+.top-icon-btn:hover {
+  border-color: var(--pink);
+  background: rgba(255,45,110,0.1);
+  transform: translateY(-4px);
+  box-shadow: var(--glow);
+}
+.top-icon-btn.active {
+  border-color: var(--pink);
+  background: rgba(255,45,110,0.12);
+}
+.top-icon-btn .notif-dot {
+  position: absolute; top: 8px; right: 8px;
+  width: 8px; height: 8px;
+  background: var(--pink);
+  border-radius: 50%;
+  border: 1px solid var(--bg);
+}
+
+/* ============================
+   SECTIONS
+   ============================ */
+.section { padding: 0 20px 24px; max-width: 500px; margin: 0 auto; }
+.section-hidden { display: none; }
+
+.section-title {
+  text-align: center;
+  margin-bottom: 6px;
+}
+.section-title h2 {
+  font-size: 1.3rem; font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+  justify-content: center;
+  color: var(--pink2);
+}
+.section-title p {
+  font-size: 0.82rem; color: var(--text3);
+  margin-top: 4px;
+}
+
+/* ============================
+   HERO / LOVE CARD
+   ============================ */
+#heroSection {
+  padding: 24px 20px;
+  max-width: 500px; margin: 0 auto;
+}
+.hero-names {
+  text-align: center;
+  font-family: 'Amiri', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 0 30px rgba(255,45,110,0.4);
+  margin-bottom: 6px;
+}
+.hero-names .amp { color: var(--pink); }
+.hero-tagline {
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.hero-tagline span { color: var(--pink); }
+
+/* ============================
+   PHOTO CARD
+   ============================ */
+.photo-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 16px;
+  transition: box-shadow 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+.photo-card:hover { box-shadow: var(--glow); }
+.photo-card img {
+  width: 100%; aspect-ratio: 4/3;
+  object-fit: cover; display: block;
+  transition: transform 0.4s;
+}
+.photo-card:hover img { transform: scale(1.04); }
+.photo-caption {
+  padding: 14px 18px;
+  font-size: 0.88rem;
+  color: var(--text2);
+  display: flex; align-items: center; gap: 8px;
+}
+.photo-caption span.heart { color: var(--pink); font-size: 1rem; }
+.photo-placeholder {
+  width: 100%; aspect-ratio: 4/3;
+  background: linear-gradient(135deg, #1a0010, #0d0d0d);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 10px; color: var(--text3);
+  font-size: 0.85rem;
+}
+.photo-placeholder .big { font-size: 2.5rem; }
+
+/* Photo slider */
+.photo-slider { position: relative; }
+.slider-photos { display: flex; transition: transform 0.4s ease; }
+.slider-photos .photo-item {
+  min-width: 100%;
+}
+.slider-photos .photo-item img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;
+}
+.slider-controls {
+  position: absolute; bottom: 55px;
+  width: 100%; display: flex;
+  justify-content: space-between; padding: 0 12px;
+  pointer-events: none;
+}
+.slider-btn {
+  width: 36px; height: 36px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%; color: white;
+  cursor: pointer; pointer-events: all;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.slider-btn:hover { background: var(--pink); }
+.slider-dots {
+  position: absolute; bottom: 60px;
+  width: 100%; display: flex;
+  justify-content: center; gap: 6px;
+}
+.sdot {
+  width: 6px; height: 6px;
+  border-radius: 50%; background: rgba(255,255,255,0.3);
+  cursor: pointer; border: none;
+  transition: all 0.2s;
+}
+.sdot.active { background: var(--pink); width: 18px; border-radius: 3px; }
+
+/* ============================
+   COUNTER
+   ============================ */
+.counter-section { margin-bottom: 16px; }
+.counter-label {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text3);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.counter-box {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px 10px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+.counter-box:hover { border-color: rgba(255,45,110,0.3); }
+.counter-num {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--pink);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.counter-unit {
+  font-size: 0.78rem;
+  color: var(--text3);
+  margin-top: 4px;
+}
+
+/* ============================
+   MUSIC PLAYER
+   ============================ */
+.music-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+  transition: border-color 0.3s;
+}
+.music-card.active {
+  border-color: rgba(255,45,110,0.4);
+  background: rgba(255,45,110,0.05);
+}
+.music-icon {
+  font-size: 0.88rem;
+  color: var(--text3);
+  flex-shrink: 0;
+  margin-inline-start: auto;
+}
+.music-info { flex: 1; text-align: right; }
+.music-name {
+  font-size: 0.95rem; font-weight: 600; color: var(--text);
+}
+.music-desc { font-size: 0.78rem; color: var(--text3); margin-top: 2px; }
+.music-play-btn {
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, var(--pink), var(--pink2));
+  border: none; border-radius: 50%;
+  color: white; font-size: 1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(255,45,110,0.35);
+}
+.music-play-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(255,45,110,0.5);
+}
+audio { display: none; }
+
+/* Music section progress bar */
+.music-progress-wrap {
+  margin-top: 8px;
+}
+.music-progress {
+  width: 100%; height: 3px;
+  -webkit-appearance: none; appearance: none;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px; cursor: pointer;
+}
+.music-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--pink);
+  cursor: pointer;
+}
+
+/* ============================
+   PROMISES / VOWS
+   ============================ */
+.promise-item {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.promise-item::before {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--pink), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.promise-item:hover { border-color: rgba(255,45,110,0.25); }
+.promise-item:hover::before { opacity: 1; }
+.promise-icon-wrap {
+  width: 38px; height: 38px;
+  background: rgba(255,45,110,0.1);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.promise-text { font-size: 0.92rem; color: var(--text2); flex: 1; text-align: right; }
+
+/* ============================
+   MEMORIES / GALLERY GRID
+   ============================ */
+.memories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.memory-thumb {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex; align-items: center; justify-content: center;
+}
+.memory-thumb:hover {
+  transform: scale(1.05);
+  box-shadow: var(--glow);
+}
+.memory-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.memory-add {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  border: 2px dashed rgba(255,45,110,0.25);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text3);
+  font-size: 1.5rem;
+  transition: all 0.25s;
+  background: rgba(255,45,110,0.03);
+}
+.memory-add:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: rgba(255,45,110,0.08);
+}
+.memory-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: rgba(255,45,110,0.3);
+}
+
+/* ============================
+   QUESTIONS / LOVE QUIZ
+   ============================ */
+.question-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r);
+  padding: 20px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.question-text {
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--text); margin-bottom: 16px;
+}
+.answer-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.answer-btn {
+  padding: 12px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: var(--text2);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.answer-btn:hover {
+  border-color: var(--pink);
+  background: rgba(255,45,110,0.1);
+  color: white;
+}
+.answer-btn.correct {
+  border-color: #4caf50;
+  background: rgba(76,175,80,0.1);
+  color: #81c784;
+}
+.answer-btn.wrong {
+  border-color: #e53935;
+  background: rgba(229,57,53,0.1);
+  color: #ef9a9a;
+}
+
+/* ============================
+   LETTER / MESSAGE SECTION
+   ============================ */
+.letter-card {
+  background: var(--card);
+  border: 1px solid rgba(255,45,110,0.15);
+  border-radius: var(--r);
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.letter-card::before {
+  content: '❝';
+  position: absolute; top: -10px; right: 16px;
+  font-size: 5rem; color: rgba(255,45,110,0.06);
+  font-family: serif;
+}
+.letter-text {
+  font-family: 'Amiri', serif;
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--text2);
+  text-align: center;
+  direction: rtl;
+}
+.letter-sign {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--pink2);
+}
+
+/* ============================
+   LIGHTBOX
+   ============================ */
+#lightbox {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 8000;
+  align-items: center; justify-content: center;
+}
+#lightbox.open { display: flex; }
+#lightbox img {
+  max-width: 90vw; max-height: 85vh;
+  border-radius: 16px; object-fit: contain;
+}
+.lb-close {
+  position: absolute; top: 20px; left: 20px;
+  color: white; background: rgba(255,255,255,0.1);
+  border: none; width: 44px; height: 44px;
+  border-radius: 50%; font-size: 1.2rem;
+  cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+}
+
+/* ============================
+   ADMIN PANEL
+   ============================ */
+#adminOverlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 7000; backdrop-filter: blur(6px);
+}
+#adminOverlay.open { display: block; }
+#adminPanel {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #0f0f0f;
+  border-top: 1px solid rgba(255,45,110,0.2);
+  border-radius: 24px 24px 0 0;
+  z-index: 7001;
+  max-height: 85vh; overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  max-width: 500px; margin: 0 auto;
+}
+#adminPanel.open { transform: translateY(0); }
+.admin-handle {
+  width: 40px; height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  margin: 12px auto 0;
+}
+.admin-header {
+  padding: 16px 20px 12px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.admin-header h2 {
+  font-size: 1.1rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--pink), var(--pink2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.admin-close-btn {
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,0.06);
+  border: none; border-radius: 50%;
+  color: var(--text3); cursor: pointer;
+  font-size: 1rem; display: flex;
+  align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.admin-close-btn:hover { background: rgba(255,45,110,0.15); color: var(--pink); }
+
+.admin-body { padding: 16px 20px 30px; }
+.admin-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.a-tab {
+  padding: 7px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer; font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem;
+  transition: all 0.2s;
+}
+.a-tab.active {
+  background: linear-gradient(135deg, var(--pink), var(--pink2));
+  color: white; border-color: transparent;
+}
+.a-section { display: none; }
+.a-section.active { display: block; }
+
+.a-label {
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--text3); margin-bottom: 6px;
+  margin-top: 14px; display: block;
+  letter-spacing: 0.5px;
+}
+.a-input, .a-select, .a-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.a-input:focus, .a-select:focus, .a-textarea:focus {
+  border-color: var(--pink);
+}
+.a-textarea { resize: vertical; min-height: 80px; }
+.a-select option { background: #111; }
+.a-btn {
+  width: 100%; padding: 11px;
+  background: linear-gradient(135deg, var(--pink), var(--pink2));
+  border: none; border-radius: 10px;
+  color: white; font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; margin-top: 12px;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.a-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.a-btn.danger {
+  background: linear-gradient(135deg, #c62828, #e53935);
+  margin-top: 6px;
+}
+.a-btn.secondary {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.a-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 16px 0; }
+.a-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.a-row:last-child { border-bottom: none; }
+.a-row-icon { font-size: 1.1rem; flex-shrink: 0; }
+.a-row-text { flex: 1; font-size: 0.85rem; color: var(--text2); }
+.a-row-del {
+  width: 28px; height: 28px;
+  background: rgba(229,57,53,0.1);
+  border: none; border-radius: 50%;
+  color: #ef9a9a; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+.a-row-del:hover { background: rgba(229,57,53,0.25); }
+
+/* Admin toggle */
+#adminToggleBtn {
+  position: fixed;
+  bottom: 90px; left: 20px;
+  width: 46px; height: 46px;
+  background: rgba(255,45,110,0.15);
+  border: 1px solid rgba(255,45,110,0.3);
+  border-radius: 50%;
+  color: var(--pink);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 6000;
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(255,45,110,0.2);
+}
+#adminToggleBtn.show { display: flex; }
+#adminToggleBtn:hover {
+  background: var(--pink);
+  color: white;
+  box-shadow: 0 6px 24px rgba(255,45,110,0.4);
+}
+
+/* ============================
+   TOAST
+   ============================ */
+#toastWrap {
+  position: fixed;
+  bottom: 100px; left: 50%; transform: translateX(-50%);
+  z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+}
+.toast {
+  background: rgba(20,5,10,0.9);
+  border: 1px solid rgba(255,45,110,0.3);
+  border-radius: 50px;
+  padding: 10px 22px;
+  color: var(--text2);
+  font-size: 0.85rem;
+  backdrop-filter: blur(20px);
+  animation: toastIn 0.3s ease;
+  white-space: nowrap;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ============================
+   ADMIN LOGIN
+   ============================ */
+#adminLoginModal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 9500;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(10px);
+}
+#adminLoginModal.open { display: flex; }
+.admin-login-card {
+  background: #0f0f0f;
+  border: 1px solid rgba(255,45,110,0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  width: min(360px, 90vw);
+  text-align: center;
+}
+.admin-login-card h3 {
+  font-size: 1.2rem; margin-bottom: 6px; color: white;
+}
+.admin-login-card p { font-size: 0.82rem; color: var(--text3); margin-bottom: 1.5rem; }
+
+/* ============================
+   SECTION SELECTOR FOOTER
+   ============================ */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(10,10,10,0.95);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  z-index: 500;
+  display: flex; justify-content: space-around;
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+}
+.bnav-btn {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 3px;
+  border: none; background: none;
+  color: var(--text3); cursor: pointer;
+  padding: 6px 12px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.68rem;
+  transition: color 0.2s;
+}
+.bnav-btn .ico { font-size: 1.25rem; }
+.bnav-btn.active { color: var(--pink); }
+
+/* ============================
+   UTILITIES
+   ============================ */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.vis { opacity: 1; transform: none; }
+
+.color-circle {
+  width: 34px; height: 34px;
+  border-radius: 50%; border: 2px solid rgba(255,255,255,0.1);
+  cursor: pointer; flex-shrink: 0;
+  -webkit-appearance: none; appearance: none;
+  padding: 0; background: none;
+}
+
+@media (min-width: 500px) {
+  .section, #heroSection { padding-left: 24px; padding-right: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- Audio Element -->
+<audio id="mainAudio" loop></audio>
+
+<!-- ========================
+     ENTRY / LOCK SCREEN
+     ======================== -->
+<div id="entryScreen">
+  <div class="entry-card" id="entryCard">
+    <div style="font-size:2.5rem;margin-bottom:0.8rem">💖</div>
+    <div class="entry-title" id="entryTitle">مصطفى & حبيبته</div>
+    <div class="entry-sub">✦ <span>OUR ETERNAL LOVE STORY</span> ✦</div>
+    <input class="entry-input" id="entryInput" type="text" placeholder="انتِ لسه هتفكري انجزي" dir="rtl" autocomplete="off">
+    <button class="entry-btn" onclick="tryEntry()">دوسي هنا 🥹</button>
+    <div class="entry-err" id="entryErr">الإجابة مش صح يا حبيبتي 💔</div>
+    <div class="entry-skip" onclick="skipEntry()">تخطي للمعاينة</div>
+  </div>
+</div>
+
+<!-- ========================
+     ADMIN LOGIN MODAL
+     ======================== -->
+<div id="adminLoginModal">
+  <div class="admin-login-card">
+    <div style="font-size:2rem;margin-bottom:0.5rem">🔐</div>
+    <h3>لوحة التحكم</h3>
+    <p>ادخل كلمة المرور</p>
+    <input class="a-input" id="adminPwInput" type="password" placeholder="كلمة المرور" dir="ltr">
+    <div style="color:#ef9a9a;font-size:0.8rem;margin-top:8px;display:none" id="adminPwErr">كلمة مرور خاطئة</div>
+    <button class="a-btn" style="margin-top:12px" onclick="doAdminLogin()">دخول</button>
+    <button class="a-btn secondary" onclick="closeAdminLogin()">إلغاء</button>
+  </div>
+</div>
+
+<!-- ========================
+     LIGHTBOX
+     ======================== -->
+<div id="lightbox">
+  <button class="lb-close" onclick="closeLb()">✕</button>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<!-- ========================
+     MAIN APP
+     ======================== -->
+<div id="mainApp">
+
+  <!-- TOP ICON NAV -->
+  <div class="top-icons">
+    <button class="top-icon-btn active" id="iconHome" onclick="showSection('home',this)" title="الرئيسية">👑</button>
+    <button class="top-icon-btn" id="iconMemory" onclick="showSection('memories',this)" title="ذكريات">⭐</button>
+    <button class="top-icon-btn" id="iconLetter" onclick="showSection('letter',this)" title="رسالة">✉️<div class="notif-dot"></div></button>
+  </div>
+
+  <!-- ===== HOME SECTION ===== -->
+  <div id="sec-home">
+
+    <div id="heroSection">
+      <div class="hero-names" id="displayNames">مصطفى <span class="amp">&</span> حبيبته</div>
+      <div class="hero-tagline">✦ <span>OUR ETERNAL LOVE STORY</span> ✦</div>
+    </div>
+
+    <!-- Photo Slider -->
+    <div class="section">
+      <div class="photo-card photo-slider" id="photoSlider">
+        <div class="slider-photos" id="sliderPhotos">
+          <!-- Photos injected by JS -->
+        </div>
+        <div class="slider-controls">
+          <button class="slider-btn" onclick="sliderNav(-1)">‹</button>
+          <button class="slider-btn" onclick="sliderNav(1)">›</button>
+        </div>
+        <div class="slider-dots" id="sliderDots"></div>
+        <div id="photoCaption" class="photo-caption">
+          <span class="heart">❤</span>
+          <span id="captionText">أحلى صدفة في عمري</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Counter -->
+    <div class="section reveal">
+      <div class="counter-label">منذ أن بدأت القصة</div>
+      <div class="counter-grid">
+        <div class="counter-box"><div class="counter-num" id="cntYears">0</div><div class="counter-unit">سنة</div></div>
+        <div class="counter-box"><div class="counter-num" id="cntMonths">0</div><div class="counter-unit">شهر</div></div>
+        <div class="counter-box"><div class="counter-num" id="cntDays">0</div><div class="counter-unit">يوم</div></div>
+      </div>
+      <div class="counter-grid">
+        <div class="counter-box"><div class="counter-num" id="cntHours">0</div><div class="counter-unit">ساعة</div></div>
+        <div class="counter-box"><div class="counter-num" id="cntMins">0</div><div class="counter-unit">دقيقة</div></div>
+        <div class="counter-box"><div class="counter-num" id="cntSecs">0</div><div class="counter-unit">ثانية</div></div>
+      </div>
+    </div>
+
+    <!-- Music -->
+    <div class="section reveal" id="musicSection">
+      <div class="section-title" style="margin-bottom:12px">
+        <h2>🎵 الأغنية اللي بتوصفنا</h2>
+      </div>
+      <div id="musicList">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Promises -->
+    <div class="section reveal" id="promisesSection">
+      <div class="section-title" style="margin-bottom:12px">
+        <h2>🤝 وعودي ليكِ</h2>
+      </div>
+      <div id="promisesList">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+  </div><!-- /sec-home -->
+
+  <!-- ===== MEMORIES SECTION ===== -->
+  <div id="sec-memories" class="section-hidden" style="padding-top:16px">
+    <div class="section">
+      <div class="section-title" style="margin-bottom:16px">
+        <h2>📸 ذكرياتنا</h2>
+        <p>كل صورة حكاية ❤</p>
+      </div>
+      <div class="memories-grid" id="memoriesGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="section reveal" style="margin-top:8px">
+      <div class="section-title" style="margin-bottom:12px">
+        <h2>💡 اختبار الحب</h2>
+      </div>
+      <div id="quizArea">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LETTER SECTION ===== -->
+  <div id="sec-letter" class="section-hidden" style="padding-top:16px">
+    <div class="section">
+      <div class="section-title" style="margin-bottom:16px">
+        <h2>💌 رسالتي ليكِ</h2>
+      </div>
+      <div class="letter-card" id="letterCard">
+        <div class="letter-text" id="letterText">
+          انتِ أجمل شيء حصالي في الحياة دي..
+          كل يوم بيعدي معاكِ بيخليني أشكر ربنا إنه بعتك في حياتي.
+          انتِ مش بس حبيبتي، انتِ بيتي وضحكتي وهدوئي.
+          وعدتك إني هكون جنبك في كل خطوة، وهبقى سندك في كل لحظة.
+          أنا بحبك بكل حاجة فيا. ♾
+        </div>
+        <div class="letter-sign" id="letterSign">— مصطفى 💖</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /mainApp -->
+
+<!-- ADMIN TOGGLE BTN -->
+<button id="adminToggleBtn" onclick="openAdminPanel()">⚙️</button>
+
+<!-- Admin Overlay -->
+<div id="adminOverlay" onclick="closeAdmin()"></div>
+
+<!-- ========================
+     ADMIN PANEL
+     ======================== -->
+<div id="adminPanel">
+  <div class="admin-handle"></div>
+  <div class="admin-header">
+    <h2>⚙️ لوحة التحكم</h2>
+    <button class="admin-close-btn" onclick="closeAdmin()">✕</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-tabs">
+      <button class="a-tab active" onclick="aTab(this,'at-main')">الرئيسية</button>
+      <button class="a-tab" onclick="aTab(this,'at-photos')">الصور</button>
+      <button class="a-tab" onclick="aTab(this,'at-music')">الموسيقى</button>
+      <button class="a-tab" onclick="aTab(this,'at-promises')">الوعود</button>
+      <button class="a-tab" onclick="aTab(this,'at-letter')">الرسالة</button>
+      <button class="a-tab" onclick="aTab(this,'at-quiz')">الاختبار</button>
+      <button class="a-tab" onclick="aTab(this,'at-access')">الدخول</button>
+    </div>
+
+    <!-- TAB: MAIN -->
+    <div class="a-section active" id="at-main">
+      <label class="a-label">اسمك</label>
+      <input class="a-input" id="aName1" placeholder="مثال: مصطفى">
+      <label class="a-label">اسم حبيبتك</label>
+      <input class="a-input" id="aName2" placeholder="مثال: نور">
+      <label class="a-label">تاريخ بداية الحب</label>
+      <input class="a-input" id="aLoveDate" type="datetime-local">
+      <button class="a-btn" onclick="saveMainSettings()">💾 حفظ</button>
+      <hr class="a-divider">
+      <label class="a-label">لون الإضاءة الرئيسي</label>
+      <div style="display:flex;gap:10px;align-items:center">
+        <input type="color" class="color-circle" id="aColorPink" value="#ff2d6e" onchange="applyAccentColor(this.value)">
+        <span style="font-size:0.82rem;color:var(--text3)">اللون الرئيسي للموقع</span>
+      </div>
+      <label class="a-label" style="margin-top:12px">خلفية الجسم</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+        <button class="a-btn secondary" style="margin-top:0;flex:1" onclick="setBg('#0a0a0a','#000')">⬛ أسود</button>
+        <button class="a-btn secondary" style="margin-top:0;flex:1" onclick="setBg('#0d0008','#000')">🟥 داكن</button>
+        <button class="a-btn secondary" style="margin-top:0;flex:1" onclick="setBg('#00050d','#000')">🔵 كحلي</button>
+      </div>
+    </div>
+
+    <!-- TAB: PHOTOS -->
+    <div class="a-section" id="at-photos">
+      <div style="border:2px dashed rgba(255,45,110,0.2);border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:rgba(255,45,110,0.03)"
+        onclick="document.getElementById('aImgFile').click()">
+        <div style="font-size:2rem;margin-bottom:6px">🖼</div>
+        <div style="font-size:0.82rem;color:var(--text3)">اضغط لرفع صورة</div>
+      </div>
+      <input type="file" id="aImgFile" accept="image/*" style="display:none" onchange="uploadPhoto(this)">
+      <label class="a-label">وصف الصورة الجديدة</label>
+      <input class="a-input" id="aImgCaption" placeholder="مثال: أجمل يوم في حياتي">
+      <hr class="a-divider">
+      <div style="font-size:0.78rem;color:var(--text3);margin-bottom:8px">الصور الحالية:</div>
+      <div id="aPhotoList"></div>
+    </div>
+
+    <!-- TAB: MUSIC -->
+    <div class="a-section" id="at-music">
+      <div style="border:2px dashed rgba(255,45,110,0.2);border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:rgba(255,45,110,0.03)"
+        onclick="document.getElementById('aAudioFile').click()">
+        <div style="font-size:2rem;margin-bottom:6px">🎵</div>
+        <div style="font-size:0.82rem;color:var(--text3)">اضغط لرفع أغنية (MP3)</div>
+      </div>
+      <input type="file" id="aAudioFile" accept="audio/*" style="display:none" onchange="uploadAudio(this)">
+      <label class="a-label">اسم الأغنية</label>
+      <input class="a-input" id="aMusicName" placeholder="مثال: نور عيني">
+      <label class="a-label">وصف قصير</label>
+      <input class="a-input" id="aMusicDesc" placeholder="مثال: الأغنية اللي بتوصفنا">
+      <hr class="a-divider">
+      <div id="aMusicList"></div>
+    </div>
+
+    <!-- TAB: PROMISES -->
+    <div class="a-section" id="at-promises">
+      <label class="a-label">إيموجي الوعد</label>
+      <input class="a-input" id="aPromiseIcon" placeholder="🤝 أو 💪 أو ❤">
+      <label class="a-label">نص الوعد</label>
+      <input class="a-input" id="aPromiseText" placeholder="هكون سندك في كل وقت">
+      <button class="a-btn" onclick="addPromise()">➕ إضافة</button>
+      <hr class="a-divider">
+      <div id="aPromiseList"></div>
+    </div>
+
+    <!-- TAB: LETTER -->
+    <div class="a-section" id="at-letter">
+      <label class="a-label">نص الرسالة</label>
+      <textarea class="a-textarea" id="aLetterText" rows="6" placeholder="اكتب رسالتك هنا..."></textarea>
+      <label class="a-label">التوقيع</label>
+      <input class="a-input" id="aLetterSign" placeholder="مثال: — مصطفى 💖">
+      <button class="a-btn" onclick="saveLetter()">💾 حفظ الرسالة</button>
+    </div>
+
+    <!-- TAB: QUIZ -->
+    <div class="a-section" id="at-quiz">
+      <label class="a-label">السؤال</label>
+      <input class="a-input" id="aQtext" placeholder="مثال: إيه اسم أغنيتنا المفضلة؟">
+      <label class="a-label">الإجابة الصحيحة</label>
+      <input class="a-input" id="aQcorrect" placeholder="الإجابة الصحيحة">
+      <label class="a-label">إجابات خاطئة (افصل بفاصلة)</label>
+      <input class="a-input" id="aQwrong" placeholder="إجابة1, إجابة2, إجابة3">
+      <button class="a-btn" onclick="addQuestion()">➕ إضافة سؤال</button>
+      <hr class="a-divider">
+      <div id="aQuizList"></div>
+    </div>
+
+    <!-- TAB: ACCESS -->
+    <div class="a-section" id="at-access">
+      <label class="a-label">سؤال شاشة الدخول</label>
+      <input class="a-input" id="aEntryQ" placeholder="مثال: انتِ لسه هتفكري انجزي">
+      <label class="a-label">الإجابة الصحيحة</label>
+      <input class="a-input" id="aEntryA" placeholder="الإجابة السرية">
+      <label class="a-label">كلمة مرور الأدمن</label>
+      <input class="a-input" id="aAdminPw" type="password" placeholder="كلمة مرور جديدة">
+      <button class="a-btn" onclick="saveAccess()">💾 حفظ الإعدادات</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav" id="bottomNav" style="display:none">
+  <button class="bnav-btn active" onclick="showSection('home',null,'bnav')" id="bHome">
+    <span class="ico">🏠</span><span>الرئيسية</span>
+  </button>
+  <button class="bnav-btn" onclick="showSection('memories',null,'bnav')" id="bMemories">
+    <span class="ico">📸</span><span>ذكريات</span>
+  </button>
+  <button class="bnav-btn" onclick="showSection('letter',null,'bnav')" id="bLetter">
+    <span class="ico">💌</span><span>رسالة</span>
+  </button>
+</div>
+
+<div id="toastWrap"></div>
+
+<!-- ========================
+     JAVASCRIPT
+     ======================== -->
+<script>
+/* =========== DATA STORE (localStorage) =========== */
+const S = {
+  get(k,def){ try{ const v=localStorage.getItem('ls_'+k); return v===null?def:JSON.parse(v); }catch{return def;} },
+  set(k,v){ try{ localStorage.setItem('ls_'+k,JSON.stringify(v)); }catch{} }
+};
+
+// Default data
+let cfg = S.get('cfg', {
+  name1: 'مصطفى', name2: 'حبيبته',
+  loveDate: '2022-01-01T00:00:00',
+  accentColor: '#ff2d6e',
+  entryQuestion: 'انتِ لسه هتفكري انجزي',
+  entryAnswer: 'لا',
+  adminPw: 'admin123',
+  bgColor: '#0a0a0a',
+  letterText: 'انتِ أجمل شيء حصالي في الحياة دي..\nكل يوم بيعدي معاكِ بيخليني أشكر ربنا إنه بعتك في حياتي.\nانتِ مش بس حبيبتي، انتِ بيتي وضحكتي وهدوئي.\nوعدتك إني هكون جنبك في كل خطوة، وهبقى سندك في كل لحظة.\nأنا بحبك بكل حاجة فيا. ♾',
+  letterSign: '— مصطفى 💖'
+});
+
+let photos = S.get('photos', [
+  { id:1, url:'', caption:'أحلى صدفة في عمري', isPlaceholder:true }
+]);
+let songs = S.get('songs', [
+  { id:1, name:'نور عيني', desc:'الأغنية اللي بتوصفنا', url:null }
+]);
+let promises = S.get('promises', [
+  { id:1, icon:'🛡', text:'هكون دايماً أمانك وضحكتك' },
+  { id:2, icon:'🤝', text:'هفضل سندك في كل وقت' },
+  { id:3, icon:'♾', text:'حبنا ملوش نهاية.. وعد' }
+]);
+let quizQ = S.get('quiz', [
+  { id:1, q:'إيه أجمل شيء في حياتك؟', correct:'أنا 💕', wrong:['الأكل','النوم','المذاكرة'] }
+]);
+let isAdminUnlocked = false;
+let currentSong = -1;
+let isAudioPlaying = false;
+let sliderIdx = 0;
+let quizIdx = 0;
+
+/* =========== APPLY SETTINGS =========== */
+function applyAllSettings(){
+  // Names
+  document.getElementById('displayNames').innerHTML =
+    `${cfg.name1} <span class="amp">&</span> ${cfg.name2}`;
+  document.getElementById('entryTitle').textContent = `${cfg.name1} & ${cfg.name2}`;
+  document.getElementById('letterSign').textContent = cfg.letterSign;
+  document.getElementById('letterText').textContent = cfg.letterText;
+  // Accent color
+  applyAccentColor(cfg.accentColor, false);
+  // BG
+  document.body.style.background = cfg.bgColor;
+  // Entry question placeholder
+  document.getElementById('entryInput').placeholder = cfg.entryQuestion;
+}
+
+function applyAccentColor(color, save=true){
+  document.documentElement.style.setProperty('--pink', color);
+  // Darken for pink2
+  document.documentElement.style.setProperty('--pink2', lighten(color, 25));
+  if(save){ cfg.accentColor = color; S.set('cfg', cfg); }
+}
+
+function lighten(hex, amt){
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  const clamp=v=>Math.min(255,v+amt);
+  return `rgb(${clamp(r)},${clamp(g)},${clamp(b)})`;
+}
+
+function setBg(c1, c2){
+  cfg.bgColor = c1;
+  S.set('cfg',cfg);
+  document.body.style.background = c1;
+  toast('تم تغيير الخلفية ✓');
+}
+
+/* =========== PARTICLES =========== */
+function initParticles(){
+  const wrap = document.getElementById('particles');
+  wrap.innerHTML = '';
+  const syms = ['❤','💖','💕','⭐','✨','🌹','💗','💓'];
+  for(let i=0;i<20;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = syms[i % syms.length];
+    const left = Math.random()*100;
+    const dur  = 6 + Math.random()*8;
+    const del  = Math.random()*10;
+    p.style.cssText = `left:${left}%;font-size:${10+Math.random()*12}px;animation-duration:${dur}s;animation-delay:${del}s`;
+    wrap.appendChild(p);
+  }
+}
+
+/* =========== ENTRY SCREEN =========== */
+function tryEntry(){
+  const val = document.getElementById('entryInput').value.trim().toLowerCase();
+  const correct = cfg.entryAnswer.trim().toLowerCase();
+  if(val === correct || val === 'admin' || val.length === 0){
+    // allow any answer or skip
+    if(val !== correct && val !== '') {
+      document.getElementById('entryErr').style.display = 'block';
+      document.getElementById('entryCard').style.animation = 'shake 0.4s ease';
+      setTimeout(() => document.getElementById('entryCard').style.animation='', 400);
+      return;
+    }
+  }
+  enterApp();
+}
+document.getElementById('entryInput').addEventListener('keydown', e => {
+  if(e.key === 'Enter') tryEntry();
+});
+function skipEntry(){ enterApp(); }
+function enterApp(){
+  const screen = document.getElementById('entryScreen');
+  screen.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  screen.style.opacity = '0';
+  screen.style.transform = 'scale(1.05)';
+  setTimeout(()=>{
+    screen.style.display = 'none';
+    document.getElementById('mainApp').classList.add('show');
+    document.getElementById('adminToggleBtn').classList.add('show');
+    document.getElementById('bottomNav').style.display = 'flex';
+    renderAll();
+    setupReveal();
+    startCounter();
+  }, 700);
+}
+
+// Shake animation
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}';
+document.head.appendChild(shakeStyle);
+
+/* =========== RENDER EVERYTHING =========== */
+function renderAll(){
+  applyAllSettings();
+  renderSlider();
+  renderMusicList();
+  renderPromises();
+  renderMemories();
+  renderQuiz();
+  renderAdminLists();
+  populateAdminFields();
+}
+
+/* =========== PHOTO SLIDER =========== */
+function renderSlider(){
+  const wrap = document.getElementById('sliderPhotos');
+  const dots = document.getElementById('sliderDots');
+  if(!photos.length){
+    wrap.innerHTML = `<div class="photo-placeholder" style="min-width:100%;aspect-ratio:4/3"><div class="big">📷</div><div>ارفع صورك من لوحة التحكم</div></div>`;
+    dots.innerHTML = '';
+    return;
+  }
+  wrap.innerHTML = photos.map(p =>
+    p.isPlaceholder || !p.url
+      ? `<div class="photo-item"><div class="photo-placeholder"><div class="big">📷</div><div>${p.caption}</div></div></div>`
+      : `<div class="photo-item"><img src="${p.url}" alt="${p.caption}" loading="lazy" onclick="openLb('${p.url}')"></div>`
+  ).join('');
+  dots.innerHTML = photos.map((_,i) =>
+    `<button class="sdot${i===sliderIdx?' active':''}" onclick="goSlide(${i})"></button>`
+  ).join('');
+  updateSlider();
+}
+
+function updateSlider(){
+  const wrap = document.getElementById('sliderPhotos');
+  wrap.style.transform = `translateX(${sliderIdx*100}%)`;
+  document.getElementById('captionText').textContent = photos[sliderIdx]?.caption || '';
+  document.querySelectorAll('.sdot').forEach((d,i) => {
+    d.classList.toggle('active', i === sliderIdx);
+  });
+}
+function sliderNav(dir){
+  sliderIdx = (sliderIdx + dir + photos.length) % photos.length;
+  updateSlider();
+}
+function goSlide(i){ sliderIdx = i; updateSlider(); }
+
+// Auto advance
+setInterval(()=>{ if(photos.length > 1) sliderNav(1); }, 4000);
+
+/* =========== COUNTER =========== */
+function startCounter(){
+  function update(){
+    const now = new Date();
+    const start = new Date(cfg.loveDate);
+    if(isNaN(start)) return;
+    let diff = now - start;
+    if(diff < 0) diff = 0;
+    const secs = Math.floor(diff/1000) % 60;
+    const mins = Math.floor(diff/60000) % 60;
+    const hrs  = Math.floor(diff/3600000) % 24;
+    const days = Math.floor(diff/86400000) % 30;
+    const months = Math.floor(diff/2592000000) % 12;
+    const years = Math.floor(diff/31536000000);
+    document.getElementById('cntYears').textContent = years;
+    document.getElementById('cntMonths').textContent = months;
+    document.getElementById('cntDays').textContent = days;
+    document.getElementById('cntHours').textContent = String(hrs).padStart(2,'0');
+    document.getElementById('cntMins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cntSecs').textContent = String(secs).padStart(2,'0');
+  }
+  update();
+  setInterval(update, 1000);
+}
+
+/* =========== MUSIC =========== */
+const audio = document.getElementById('mainAudio');
+function renderMusicList(){
+  const wrap = document.getElementById('musicSection');
+  const list = document.getElementById('musicList');
+  if(!songs.length){
+    list.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:0.85rem;padding:20px">ارفع أغنية من لوحة التحكم 🎵</div>';
+    return;
+  }
+  list.innerHTML = songs.map((s,i) => `
+    <div class="music-card${currentSong===i?' active':''}" id="mc-${i}">
+      <div class="music-info">
+        <div class="music-name">${s.name}</div>
+        <div class="music-desc">🎵 ${s.desc}</div>
+      </div>
+      <div class="music-icon" id="mi-${i}">${currentSong===i && isAudioPlaying ? '▶' : '♪'}</div>
+      <button class="music-play-btn" onclick="toggleSong(${i})">${currentSong===i && isAudioPlaying ? '⏸' : '▶'}</button>
+    </div>
+  `).join('');
+}
+
+function toggleSong(i){
+  if(currentSong === i){
+    if(isAudioPlaying){ audio.pause(); isAudioPlaying=false; }
+    else if(audio.src){ audio.play(); isAudioPlaying=true; }
+    else { toast('لا يوجد ملف صوتي لهذه الأغنية بعد'); }
+  } else {
+    currentSong = i;
+    const s = songs[i];
+    if(s.url){ audio.src = s.url; audio.play().catch(()=>{}); isAudioPlaying=true; }
+    else { toast('لا يوجد ملف صوتي — ارفع الأغنية من لوحة التحكم'); isAudioPlaying=false; }
+  }
+  renderMusicList();
+}
+audio.addEventListener('ended', ()=>{ isAudioPlaying=false; renderMusicList(); });
+
+/* =========== PROMISES =========== */
+function renderPromises(){
+  const list = document.getElementById('promisesList');
+  if(!promises.length){
+    list.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:0.85rem;padding:20px">أضف وعوداً من لوحة التحكم</div>';
+    return;
+  }
+  list.innerHTML = promises.map(p => `
+    <div class="promise-item">
+      <div class="promise-text">${p.text}</div>
+      <div class="promise-icon-wrap">${p.icon}</div>
+    </div>
+  `).join('');
+}
+
+/* =========== MEMORIES GRID =========== */
+function renderMemories(){
+  const grid = document.getElementById('memoriesGrid');
+  const items = photos.filter(p => p.url && !p.isPlaceholder);
+  let html = items.map(p => `
+    <div class="memory-thumb" onclick="openLb('${p.url}')">
+      <img src="${p.url}" alt="${p.caption}" loading="lazy">
+    </div>
+  `).join('');
+  // Add placeholder cells
+  const empty = 6 - items.length;
+  for(let i=0;i<Math.min(empty,3);i++){
+    html += `<div class="memory-thumb"><div class="memory-placeholder">📷</div></div>`;
+  }
+  html += `<div class="memory-add" onclick="document.getElementById('aImgFile').click()">➕</div>`;
+  grid.innerHTML = html;
+}
+
+/* =========== QUIZ =========== */
+function renderQuiz(){
+  const area = document.getElementById('quizArea');
+  if(!quizQ.length){
+    area.innerHTML = '<div style="text-align:center;color:var(--text3);font-size:0.85rem;padding:20px">أضف أسئلة من لوحة التحكم</div>';
+    return;
+  }
+  const q = quizQ[quizIdx % quizQ.length];
+  const all = shuffle([q.correct, ...q.wrong.slice(0,3)]);
+  area.innerHTML = `
+    <div class="question-card">
+      <div class="question-text">${q.q}</div>
+      <div class="answer-grid">
+        ${all.map(a => `<button class="answer-btn" onclick="checkAnswer(this,'${esc(a)}','${esc(q.correct)}')">${a}</button>`).join('')}
+      </div>
+    </div>
+  `;
+}
+function esc(s){ return s.replace(/'/g,"\'"); }
+function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
+
+function checkAnswer(btn, chosen, correct){
+  const btns = btn.closest('.answer-grid').querySelectorAll('.answer-btn');
+  btns.forEach(b => {
+    b.disabled = true;
+    if(b.textContent.trim() === correct) b.classList.add('correct');
+  });
+  if(chosen === correct){
+    btn.classList.add('correct');
+    toast('إجابة صح! 🎉');
+    setTimeout(()=>{ quizIdx++; renderQuiz(); }, 1800);
+  } else {
+    btn.classList.add('wrong');
+    toast('إجابة غلط! 💔');
+    setTimeout(()=> renderQuiz(), 1800);
+  }
+}
+
+/* =========== LIGHTBOX =========== */
+function openLb(url){ document.getElementById('lbImg').src=url; document.getElementById('lightbox').classList.add('open'); }
+function closeLb(){ document.getElementById('lightbox').classList.remove('open'); }
+document.getElementById('lightbox').addEventListener('click',function(e){ if(e.target===this) closeLb(); });
+
+/* =========== SECTIONS NAV =========== */
+function showSection(sec, iconBtn, source){
+  ['home','memories','letter'].forEach(s=>{
+    document.getElementById('sec-'+s).classList.toggle('section-hidden', s!==sec);
+  });
+  // Top icons
+  ['iconHome','iconMemory','iconLetter'].forEach(id => document.getElementById(id)?.classList.remove('active'));
+  const map={home:'iconHome',memories:'iconMemory',letter:'iconLetter'};
+  if(map[sec]) document.getElementById(map[sec])?.classList.add('active');
+  // Bottom nav
+  ['bHome','bMemories','bLetter'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  const bmap={home:'bHome',memories:'bMemories',letter:'bLetter'};
+  if(bmap[sec]) document.getElementById(bmap[sec])?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* =========== ADMIN =========== */
+function openAdminPanel(){
+  if(!isAdminUnlocked){
+    document.getElementById('adminLoginModal').classList.add('open');
+    return;
+  }
+  document.getElementById('adminOverlay').classList.add('open');
+  document.getElementById('adminPanel').classList.add('open');
+}
+function closeAdmin(){
+  document.getElementById('adminOverlay').classList.remove('open');
+  document.getElementById('adminPanel').classList.remove('open');
+}
+function closeAdminLogin(){
+  document.getElementById('adminLoginModal').classList.remove('open');
+}
+function doAdminLogin(){
+  const pw = document.getElementById('adminPwInput').value;
+  if(pw === cfg.adminPw){
+    isAdminUnlocked = true;
+    closeAdminLogin();
+    document.getElementById('adminPwInput').value = '';
+    document.getElementById('adminPwErr').style.display = 'none';
+    openAdminPanel();
+    toast('مرحباً يا أدمن 🛠');
+  } else {
+    document.getElementById('adminPwErr').style.display = 'block';
+  }
+}
+document.getElementById('adminPwInput').addEventListener('keydown',e=>{ if(e.key==='Enter') doAdminLogin(); });
+
+function aTab(btn, id){
+  document.querySelectorAll('.a-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.a-section').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* =========== ADMIN: POPULATE FIELDS =========== */
+function populateAdminFields(){
+  document.getElementById('aName1').value = cfg.name1;
+  document.getElementById('aName2').value = cfg.name2;
+  document.getElementById('aLoveDate').value = cfg.loveDate ? cfg.loveDate.slice(0,16) : '';
+  document.getElementById('aColorPink').value = cfg.accentColor || '#ff2d6e';
+  document.getElementById('aLetterText').value = cfg.letterText;
+  document.getElementById('aLetterSign').value = cfg.letterSign;
+  document.getElementById('aEntryQ').value = cfg.entryQuestion;
+  document.getElementById('aEntryA').value = cfg.entryAnswer;
+}
+
+/* =========== ADMIN: SAVE FUNCTIONS =========== */
+function saveMainSettings(){
+  cfg.name1 = document.getElementById('aName1').value || cfg.name1;
+  cfg.name2 = document.getElementById('aName2').value || cfg.name2;
+  const d = document.getElementById('aLoveDate').value;
+  if(d) cfg.loveDate = d;
+  S.set('cfg', cfg);
+  applyAllSettings();
+  toast('تم الحفظ ✓');
+}
+
+function saveLetter(){
+  cfg.letterText = document.getElementById('aLetterText').value;
+  cfg.letterSign = document.getElementById('aLetterSign').value;
+  S.set('cfg', cfg);
+  document.getElementById('letterText').textContent = cfg.letterText;
+  document.getElementById('letterSign').textContent = cfg.letterSign;
+  toast('تم حفظ الرسالة ✓');
+}
+
+function saveAccess(){
+  const q = document.getElementById('aEntryQ').value;
+  const a = document.getElementById('aEntryA').value;
+  const pw = document.getElementById('aAdminPw').value;
+  if(q) cfg.entryQuestion = q;
+  if(a) cfg.entryAnswer = a;
+  if(pw) cfg.adminPw = pw;
+  S.set('cfg', cfg);
+  toast('تم حفظ إعدادات الدخول ✓');
+}
+
+/* =========== ADMIN: PHOTOS =========== */
+function uploadPhoto(input){
+  const file = input.files[0];
+  if(!file) return;
+  const caption = document.getElementById('aImgCaption').value || 'ذكرى جميلة';
+  const reader = new FileReader();
+  reader.onload = e => {
+    photos.push({ id: Date.now(), url: e.target.result, caption, isPlaceholder: false });
+    S.set('photos', photos);
+    sliderIdx = photos.length - 1;
+    renderSlider(); renderMemories();
+    renderAdminLists();
+    document.getElementById('aImgCaption').value = '';
+    toast('تم رفع الصورة ✓');
+  };
+  reader.readAsDataURL(file);
+}
+
+function uploadAudio(input){
+  const file = input.files[0];
+  if(!file) return;
+  const name = document.getElementById('aMusicName').value || file.name.replace(/\.[^.]+$/,'');
+  const desc = document.getElementById('aMusicDesc').value || 'أغنية جميلة';
+  const url = URL.createObjectURL(file);
+  songs.push({ id: Date.now(), name, desc, url });
+  S.set('songs', songs);
+  renderMusicList(); renderAdminLists();
+  document.getElementById('aMusicName').value = '';
+  document.getElementById('aMusicDesc').value = '';
+  toast('تم رفع الأغنية ✓');
+}
+
+function addPromise(){
+  const icon = document.getElementById('aPromiseIcon').value || '💖';
+  const text = document.getElementById('aPromiseText').value;
+  if(!text){ toast('اكتب نص الوعد'); return; }
+  promises.push({ id: Date.now(), icon, text });
+  S.set('promises', promises);
+  renderPromises(); renderAdminLists();
+  document.getElementById('aPromiseIcon').value = '';
+  document.getElementById('aPromiseText').value = '';
+  toast('تمت إضافة الوعد ✓');
+}
+
+function addQuestion(){
+  const q = document.getElementById('aQtext').value;
+  const correct = document.getElementById('aQcorrect').value;
+  const wrongRaw = document.getElementById('aQwrong').value;
+  if(!q||!correct){ toast('أدخل السؤال والإجابة الصحيحة'); return; }
+  const wrong = wrongRaw.split(',').map(s=>s.trim()).filter(Boolean);
+  quizQ.push({ id: Date.now(), q, correct, wrong });
+  S.set('quiz', quizQ);
+  renderQuiz(); renderAdminLists();
+  document.getElementById('aQtext').value = '';
+  document.getElementById('aQcorrect').value = '';
+  document.getElementById('aQwrong').value = '';
+  toast('تمت إضافة السؤال ✓');
+}
+
+/* =========== ADMIN: RENDER LISTS =========== */
+function renderAdminLists(){
+  // Photos
+  document.getElementById('aPhotoList').innerHTML = photos.map(p => `
+    <div class="a-row">
+      <div class="a-row-icon">🖼</div>
+      <div class="a-row-text">${p.caption}</div>
+      <button class="a-row-del" onclick="delPhoto(${p.id})">✕</button>
+    </div>
+  `).join('') || '<div style="color:var(--text3);font-size:0.8rem">لا توجد صور</div>';
+
+  // Music
+  document.getElementById('aMusicList').innerHTML = songs.map(s => `
+    <div class="a-row">
+      <div class="a-row-icon">🎵</div>
+      <div class="a-row-text">${s.name}</div>
+      <button class="a-row-del" onclick="delSong(${s.id})">✕</button>
+    </div>
+  `).join('') || '<div style="color:var(--text3);font-size:0.8rem">لا توجد أغاني</div>';
+
+  // Promises
+  document.getElementById('aPromiseList').innerHTML = promises.map(p => `
+    <div class="a-row">
+      <div class="a-row-icon">${p.icon}</div>
+      <div class="a-row-text">${p.text}</div>
+      <button class="a-row-del" onclick="delPromise(${p.id})">✕</button>
+    </div>
+  `).join('') || '<div style="color:var(--text3);font-size:0.8rem">لا توجد وعود</div>';
+
+  // Quiz
+  document.getElementById('aQuizList').innerHTML = quizQ.map(q => `
+    <div class="a-row">
+      <div class="a-row-icon">❓</div>
+      <div class="a-row-text">${q.q}</div>
+      <button class="a-row-del" onclick="delQuestion(${q.id})">✕</button>
+    </div>
+  `).join('') || '<div style="color:var(--text3);font-size:0.8rem">لا توجد أسئلة</div>';
+}
+
+function delPhoto(id){ photos=photos.filter(p=>p.id!==id); S.set('photos',photos); sliderIdx=0; renderSlider();renderMemories();renderAdminLists(); toast('تم الحذف'); }
+function delSong(id){ songs=songs.filter(s=>s.id!==id); S.set('songs',songs); renderMusicList();renderAdminLists(); toast('تم الحذف'); }
+function delPromise(id){ promises=promises.filter(p=>p.id!==id); S.set('promises',promises); renderPromises();renderAdminLists(); toast('تم الحذف'); }
+function delQuestion(id){ quizQ=quizQ.filter(q=>q.id!==id); S.set('quiz',quizQ); renderQuiz();renderAdminLists(); toast('تم الحذف'); }
+
+/* =========== REVEAL ON SCROLL =========== */
+function setupReveal(){
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+  },{ threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+}
+
+/* =========== TOAST =========== */
+function toast(msg, dur=2500){
+  const w = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  w.appendChild(t);
+  setTimeout(()=>{ t.style.transition='opacity 0.4s'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, dur);
+}
+
+/* =========== KEYBOARD =========== */
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape'){ closeLb(); closeAdmin(); }
+});
+
+/* =========== INIT =========== */
+initParticles();
+</script>
+</body>
+</html>
